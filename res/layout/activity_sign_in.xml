@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignIn" >
+
+    <TextView
+        android:id="@+id/text_signIn_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_instructions" />
+
+    <EditText
+        android:id="@+id/editText_signIn_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_signIn_instructions"
+        android:ems="10"
+        android:hint="@string/hint_signIn_username" />
+
+    <EditText
+        android:id="@+id/editText_signIn_password"
+        android:inputType="textPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_signIn_username"
+        android:hint="@string/hint_signIn_password" />
+
+    <Button
+        android:id="@+id/button_signIn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_signIn_password"
+        android:text="@string/button_signIn_submit" />
+
+</RelativeLayout>
