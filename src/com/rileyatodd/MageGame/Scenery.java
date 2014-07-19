@@ -1,5 +1,9 @@
 package com.rileyatodd.MageGame;
 
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.core.GameObject;
+import com.rileyatodd.MageGame.core.Subject;
+
 import android.graphics.Bitmap;
 
 public class Scenery extends GameObject {

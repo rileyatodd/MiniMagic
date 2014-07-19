@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     	
-    <com.rileyatodd.MageGame.GameView android:id="@+id/mainGameView"
+    <com.rileyatodd.MageGame.core.GameView android:id="@+id/mainGameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     	
-   	<com.rileyatodd.MageGame.CharacterCard android:id="@+id/targetFrame"
+   	<com.rileyatodd.MageGame.userInterface.CharacterCard android:id="@+id/targetFrame"
         android:layout_width="match_parent"
         android:layout_height="50dp"
    		android:textAlignment="center" />       

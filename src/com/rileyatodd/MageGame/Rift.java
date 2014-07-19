@@ -1,5 +1,9 @@
 package com.rileyatodd.MageGame;
 
+import com.rileyatodd.MageGame.core.Character;
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.core.GameObject;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
