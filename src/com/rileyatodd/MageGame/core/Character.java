@@ -40,17 +40,6 @@ public class Character extends GameObject {
 		despawn();
 	}
 	
-	//targeting functions should handle this not detachSubject......
-	public void detachSubject(Subject object) {
-		if (object == destination) {
-			this.destination = null;
-		}
-		if (object == target) {
-			this.setTarget();
-		}
-	}
-	
-	
 	public synchronized void update(){
 		if (remainingHealth <= 0) {
 			die();
@@ -95,12 +84,11 @@ public class Character extends GameObject {
 	public void setTarget(GameObject target) {
 		this.target = target;
 		target.attachObserver(this);
-		target.notifyObservers();
-		notifyObservers();
+		notifyObservers("target");
 	}
 	public void setTarget() {
 		this.target = null;
-		notifyObservers();
+		notifyObservers("target");
 	}
 	
 	public GameObject getTarget() {
@@ -109,11 +97,20 @@ public class Character extends GameObject {
 	
 	public void setHealth(int x) {
 		this.remainingHealth = x;
-		notifyObservers();
+		notifyObservers("health");
 	}
 	
 	public void castSpell(Spell spell, int x, int y) {
 		spell.onCast(this, x, y);
+	}
+	
+	public void updateSubject(Subject sub, String message) {
+		if (message.equals("despawn")) {
+			if (sub == target) {
+				setTarget();
+			}
+		}
+		super.updateSubject(sub, message);
 	}
 
 }

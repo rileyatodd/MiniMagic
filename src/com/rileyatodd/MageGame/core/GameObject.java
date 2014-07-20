@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class GameObject implements Observer, Subject {
 	
@@ -104,48 +103,35 @@ public class GameObject implements Observer, Subject {
 	}
 	
 	public void despawn() {
-		for (int i = observers.size() - 1; i >= 0; i--) {
-			Observer observer = observers.get(i);
-			this.detachObserver(observer);
-			
-		}
+		notifyObservers("despawn");
 		gameInstance.toRemove.add(this);
 	}
 	
-	public void updateSubject(Subject observed) {
-		
-	}
-	
-	public void detachSubject(Subject observed) {
-		if (observed == destination) {
-			this.destination = null;
+	//Implementation of Observer
+	public void updateSubject(Subject sub, String message) {
+		if (message.equals("despawn")) {
+			if (sub == destination) {
+				destination = null;
+			}
 		}
 	}
 	
+	//Implementation of Subject
 	public void attachObserver(Observer observer) {
 		this.observers.add(observer);
 	}
 	
 	public void detachObserver(Observer observer) {
 		this.observers.remove(observer);
-		observer.detachSubject(this);
 	}
 
-	public void notifyObservers() {
+	public void notifyObservers(String message) {
 		for (int i = observers.size() - 1; i >= 0; i--) {
 			Observer observer = observers.get(i);
-			observer.updateSubject(this);
+			observer.updateSubject(this, message);
 		}
 	}
 	
-	
-	//dafuq is this shit....honestly
-	public void removeOther(GameObject object) {
-		if (object == destination) {
-			this.destination = null;
-		}
-		observers.remove(object);
-	}
 	
 	//To Do: generalize to work for circles
 	public boolean contains(double x, double y) {
@@ -186,6 +172,6 @@ public class GameObject implements Observer, Subject {
 	}
 	
 	public void onCollision(GameObject object) {
-		Log.d("GameObject", "onCollision called");
+		
 	}
 }

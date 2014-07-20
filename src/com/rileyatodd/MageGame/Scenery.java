@@ -17,8 +17,4 @@ public class Scenery extends GameObject {
 		
 	}
 
-	public void detachSubject(Subject observed) {
-		observers.remove(observed);
-		observed.detachObserver(this);
-	}
 }

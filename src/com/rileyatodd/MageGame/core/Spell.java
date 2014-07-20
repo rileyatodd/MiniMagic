@@ -39,12 +39,6 @@ public class Spell extends GameObject implements ButtonCallback {
 		}
 	}
 	
-	public void detachSubject(Subject observed) {
-		if (observed == destination) {
-			this.despawn();
-		}
-	}
-	
 	public void onButtonPress() {
 		gameInstance.player1.castSpell(this, 0, 0);
 	}
@@ -62,11 +56,19 @@ public class Spell extends GameObject implements ButtonCallback {
 		} else {
 			target.remainingHealth = target.maxHealth;
 		}
-		target.notifyObservers();
+		target.notifyObservers("health");
 	}
 	
 	public void damageTarget(Character target, int amount) {
 		target.remainingHealth -= amount;
-		target.notifyObservers();
+		target.notifyObservers("health");
+	}
+	
+	public void updateSubject(Subject sub, String message) {
+		if (message.equals("despawn")) {
+			if (sub == destination) {
+				despawn();
+			}
+		}
 	}
 }

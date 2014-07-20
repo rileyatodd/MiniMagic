@@ -46,15 +46,8 @@ public class UIFrame implements Observer {
 	public void getChildFrame(int x) {
 		childFrames.get(x);
 	}
-	
 
-	public void detachSubject(Subject observed) {
-		for (UIFrame child : childFrames) {
-			child.detachSubject(observed);
-		}
-	}
-
-	public void updateSubject(Subject observed) {
+	public void updateSubject(Subject observed, String message) {
 		// TODO Auto-generated method stub
 		
 	}

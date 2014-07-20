@@ -1,13 +1,12 @@
 package com.rileyatodd.MageGame.userInterface;
 
-import com.rileyatodd.MageGame.core.Character;
-import com.rileyatodd.MageGame.core.GameObject;
-import com.rileyatodd.MageGame.core.Subject;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import com.rileyatodd.MageGame.core.Character;
+import com.rileyatodd.MageGame.core.Subject;
 
 public class CharacterCard extends UIFrame {
 	//private static final String TAG = CharacterCard.class.getSimpleName();
@@ -36,7 +35,7 @@ public class CharacterCard extends UIFrame {
 		} else {
 			this.character = c;
 			character.attachObserver(this);
-			updateSubject(character);
+			updateSubject(character, "");
 		}
 	}
 	
@@ -50,7 +49,7 @@ public class CharacterCard extends UIFrame {
 		}
 	}
 	
-	public void updateSubject(Subject object) {
+	public void updateSubject(Subject object, String message) {
 		if (object == targetOf) {
 			Character p1 = (Character) object;
 			setCharacter((Character) p1.getTarget());
@@ -60,14 +59,6 @@ public class CharacterCard extends UIFrame {
 			//Log.d(TAG, "newRight: " + newRight);
 			healthBar.set(healthBar.left, healthBar.top, newRight, healthBar.bottom);
 			
-		}
-	}
-	
-	public void detachObserved(GameObject object) {
-		if (object == character) {
-			character = null;
-		} else if (object == targetOf) {
-			targetOf = null;
 		}
 	}
 }

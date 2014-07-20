@@ -26,11 +26,6 @@ public class Destination extends GameObject {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void detachSubject(Subject observed) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void despawn() {
 		destinationOf.destination = null;
