@@ -10,22 +10,26 @@ import com.rileyatodd.MageGame.core.Subject;
 
 public class CharacterCard extends UIFrame {
 	//private static final String TAG = CharacterCard.class.getSimpleName();
-	public Paint healthBackgroundPaint = new Paint();
-	public Paint healthBarPaint = new Paint();
-	public Paint infoPaint = new Paint();
-	public Rect healthBackground = new Rect();
-	public Rect healthBar = new Rect();
-	public String info;
-	public Character character;
-	public Character targetOf;
+	private Paint healthBackgroundPaint = new Paint();
+	private Paint healthBarPaint = new Paint();
+	private Paint infoPaint = new Paint();
+	private Paint infoBackgroundPaint = new Paint();
+	private Rect healthBackground = new Rect();
+	private Rect healthBar = new Rect();
+	private Rect infoBackground = new Rect();
+	private String info;
+	private Character character;
+	private Character targetOf;
 	
 	public CharacterCard(Rect bounds) {
 		super(bounds);
 		healthBackgroundPaint.setColor(Color.RED);
 		healthBarPaint.setColor(Color.GREEN);
+		infoBackgroundPaint.setColor(Color.BLACK);
 		infoPaint.setTextAlign(Paint.Align.CENTER);
 		infoPaint.setColor(Color.WHITE);
 		healthBackground.set(bounds.left, bounds.top, bounds.right, bounds.top+25);
+		infoBackground.set(bounds.left, bounds.top + 25, bounds.right, bounds.bottom);
 		healthBar.set(healthBackground);
 	}
 	
@@ -44,21 +48,27 @@ public class CharacterCard extends UIFrame {
 			canvas.drawRect(healthBackground, healthBackgroundPaint);
 			canvas.drawRect(healthBar, healthBarPaint);
 			info = character.name + " " + character.lvl;
-			//Log.d(TAG, "text coords: (" + healthBar.left + ", " + healthBar.bottom +")");
+			canvas.drawRect(infoBackground, infoBackgroundPaint);
 			canvas.drawText(info, bounds.right/2, healthBar.bottom + 20, infoPaint);
 		}
 	}
 	
 	public void updateSubject(Subject object, String message) {
-		if (object == targetOf) {
+		if (object == getTargetOf()) {
 			Character p1 = (Character) object;
 			setCharacter((Character) p1.getTarget());
 		} else if (object instanceof Character) {
 			Character character = (Character) object;
 			int newRight = (int) (character.remainingHealth / (double) character.maxHealth * healthBackground.width());
-			//Log.d(TAG, "newRight: " + newRight);
 			healthBar.set(healthBar.left, healthBar.top, newRight, healthBar.bottom);
-			
 		}
+	}
+
+	public Character getTargetOf() {
+		return targetOf;
+	}
+
+	public void setTargetOf(Character targetOf) {
+		this.targetOf = targetOf;
 	}
 }

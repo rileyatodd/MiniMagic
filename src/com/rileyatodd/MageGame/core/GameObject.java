@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.rileyatodd.MageGame.Destination;
+
 public class GameObject implements Observer, Subject {
 	
 	//private static final String TAG = GameObject.class.getSimpleName();
@@ -173,5 +175,12 @@ public class GameObject implements Observer, Subject {
 	
 	public void onCollision(GameObject object) {
 		
+	}
+	
+	public Destination createDestination(int x, int y, GameInstance gameInstance, String name) {
+		Destination newDestination = new Destination(x,y,gameInstance,name);
+		destination = newDestination;
+		destination.attachObserver(this);
+		return newDestination;
 	}
 }

@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.rileyatodd.MageGame.Destination;
 import com.rileyatodd.MageGame.R;
 import com.rileyatodd.MageGame.userInterface.Button;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
@@ -127,10 +126,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					gameInstance.player1.destination.despawn();
 				}
 				//Create new player destination and add the player as an observer of it
-				GameObject playerDestination = new Destination(gameInstance.player1, 
-						   (int)(x + gameInstance.viewCoordX),
-						   (int)(y + gameInstance.viewCoordY),
-						   this.gameInstance, "crosshairs");
+				GameObject playerDestination = gameInstance.player1.createDestination( (int)(x + gameInstance.viewCoordX),
+						   										(int)(y + gameInstance.viewCoordY),
+						   										this.gameInstance, "crosshairs");
 				playerDestination.attachObserver(gameInstance.player1);
 				gameInstance.player1.destination = playerDestination;
 				gameInstance.toAdd.add(playerDestination);		
@@ -156,7 +154,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		bounds.set(bounds.left, bounds.top, bounds.right, bounds.top + 50);
 		CharacterCard targetFrame = new CharacterCard(bounds);
 		gameInstance.player1.attachObserver(targetFrame);
-		targetFrame.targetOf = gameInstance.player1;
+		targetFrame.setTargetOf(gameInstance.player1);
 		uiFrame.addChildFrame(targetFrame);
 		
 		//Create playerFrame, connect to player1, and add to outer frame

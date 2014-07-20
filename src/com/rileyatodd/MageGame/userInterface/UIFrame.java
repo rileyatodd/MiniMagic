@@ -48,8 +48,7 @@ public class UIFrame implements Observer {
 	}
 
 	public void updateSubject(Subject observed, String message) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
