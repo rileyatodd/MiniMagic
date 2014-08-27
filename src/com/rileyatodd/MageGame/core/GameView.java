@@ -24,9 +24,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public GameActivity gameActivity;
 	public int width;
 	public int height;
-	//Coords of top-left corner of view relative to gameInstance
-	public int viewCoordX;
-	public int viewCoordY;
 	private final static String TAG = GameView.class.getSimpleName();
 	public UIFrame uiFrame;
 	public Spell selectedSpell = null;
@@ -106,7 +103,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				return true;
 			}
 			if (selectedSpell != null) {
-				gameInstance.player1.castSpell(selectedSpell, (int)x, (int)y);
+				gameInstance.player1.castSpell(selectedSpell, (int)x + gameInstance.viewCoordX, (int)y + gameInstance.viewCoordY);
 				Log.d("GameView", "Should have just casted: " + selectedSpell);
 				return true;
 			}
@@ -167,12 +164,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		//Create spellFrame
 		bounds.set(bounds.left, height - 150, bounds.right, height - 50);
 		UIFrame spellFrame = new UIFrame(bounds);
+		int numSpells = gameInstance.player1.activeSpells.size();
+		int buttonWidth = width / numSpells;
+		int left = 0;
+		int right = buttonWidth;
 		for (int i = 0; i < gameInstance.player1.activeSpells.size(); i++) {
 			Spell spell = gameInstance.player1.activeSpells.get(i);
-			bounds.set(bounds.left + i * width / 6, height - 150, bounds.left + (i + 1) * width / 6, height - 50);
+			bounds.set(left, height - 150, right, height - 50);
+			left+=buttonWidth;
+			right+=buttonWidth;
 			Button button = new Button(bounds);
 			button.addButtonCallback(spell);
-			button.paint.setColor(spell.paint.getColor());
+			button.backgroundPaint.setColor(spell.paint.getColor());
 			spellFrame.addChildFrame(button);
 			Log.d("GameView", "Added " + spell.name + " to spellFrame");
 		}

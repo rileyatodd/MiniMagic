@@ -44,6 +44,7 @@ public class CharacterCard extends UIFrame {
 	}
 	
 	public void draw(Canvas canvas) {
+		super.draw(canvas);
 		if (character != null) {
 			canvas.drawRect(healthBackground, healthBackgroundPaint);
 			canvas.drawRect(healthBar, healthBarPaint);

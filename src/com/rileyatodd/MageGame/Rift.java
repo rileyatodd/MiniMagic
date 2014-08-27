@@ -17,7 +17,7 @@ public class Rift extends Character {
 	
 	public void autoAttack(GameObject target) {
 		Character riftSpawn = new Character(1, BitmapFactory.decodeResource(gameInstance.gameActivity.getResources(), R.drawable.spider),
-				this.absoluteX, this.absoluteY - this.objectHeight * 2, gameInstance, "Rift Spawn");
+				this.shape.getCenter().x, this.shape.getCenter().y - 250, gameInstance, "Rift Spawn");
 		riftSpawn.setTarget(target);
 		riftSpawn.attackSpeed = 1;
 		riftSpawn.destination = target;

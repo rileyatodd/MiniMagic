@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 public class Animation {
 	public int framesPerSecond = 30;
@@ -14,6 +13,8 @@ public class Animation {
 	int index;
 	public ArrayList<Bitmap> bitmaps;
 	Paint paint;
+	private int width;
+	private int height;
 	
 	public Animation() {
 		index = 0;
@@ -28,7 +29,6 @@ public class Animation {
 	
 	public void update() {
 		index = (int) ((System.currentTimeMillis() - startTime) / 1000.0 * framesPerSecond);
-		Log.d("Animation", "Updated index: " + index);
 		if (index >= bitmaps.size()) {
 			running = false;
 		}
@@ -39,5 +39,21 @@ public class Animation {
 		if (running) {
 			canvas.drawBitmap(bitmaps.get(index), x, y, paint);
 		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 }

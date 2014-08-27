@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 
 import com.rileyatodd.MageGame.Destination;
 
@@ -19,18 +22,13 @@ public class GameObject implements Observer, Subject {
 	public boolean animated = false;
 	public Bitmap bitmap;
 	public Animation animation;
-	public int screenX;
-	public int screenY;
-	public int absoluteX;
-	public int absoluteY;
-	public int objectWidth;
-	public int objectHeight;
+	public Shape shape;
 	public boolean targetable;
 	public String name;
-	public ArrayList<Observer> observers = new ArrayList<Observer>();
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	public String toString() {
-		return name + "@ (" + this.absoluteX + ", " + this.absoluteY + ")";
+		return name + "@ (" + this.shape.getCenter().x + ", " + this.shape.getCenter().y + ")";
 	}
 	
 	public GameObject(Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
@@ -38,25 +36,16 @@ public class GameObject implements Observer, Subject {
 		this.bitmap = bitmap;
 		this.name = name;
 		this.solid = true;
-		if (bitmap == null) {
-			this.objectHeight = 0;
-			this.objectWidth = 0;
+		if (bitmap == null && animation == null) {
+			this.shape = new Circle(x,y, 10);
 		} else {
-			this.objectHeight = bitmap.getHeight();
-			this.objectWidth = bitmap.getWidth();
+			this.shape = new Rectangle(x,y, bitmap.getWidth(), bitmap.getHeight());
 		}
-		this.absoluteX = x;
-		this.absoluteY = y;
-		this.screenX = this.absoluteX - gameInstance.viewCoordX;
-		this.screenY = this.absoluteY - gameInstance.viewCoordY;
 		this.targetable = false;
 	}
 	
 	public void move(int x, int y) {
-		this.absoluteX = x;
-		this.absoluteY = y;
-		this.screenX = this.absoluteX - gameInstance.viewCoordX;
-		this.screenY = this.absoluteY - gameInstance.viewCoordY; 
+		this.shape.setCenter(x, y);
 	}
 		
 	public void update() {
@@ -65,8 +54,8 @@ public class GameObject implements Observer, Subject {
 		double dy = 0;
 		if (destination != null) {
 			//vertical and horizontal distances to the destination
-			int xDistance = destination.absoluteX - this.absoluteX;
-			int yDistance = destination.absoluteY - this.absoluteY;
+			int xDistance = destination.shape.getCenter().x - this.shape.getCenter().x;
+			int yDistance = destination.shape.getCenter().y - this.shape.getCenter().y;
 
 			//Check for divBy0
 			if(xDistance == 0) {
@@ -91,16 +80,13 @@ public class GameObject implements Observer, Subject {
 		}
 		
 		//With correct coordinates determined, move the object
-		this.move((int)(this.absoluteX + dx), (int)(this.absoluteY + dy));
+		this.move((int)(this.shape.getCenter().x + dx), (int)(this.shape.getCenter().y + dy));
 		
 		//move the camera if necessary
 		if (this.centered) {
-			//Log.d(TAG, "" + gameInstance.width);
-			gameInstance.viewCoordX = absoluteX - gameInstance.width / 2;
-			gameInstance.viewCoordY = absoluteY - gameInstance.height / 2;
-			//Log.d(TAG, "CenterCoords: (" + absoluteX + ", " + absoluteY +")");
-			//Log.d(TAG, "viewCoords: (" + gameInstance.getGameView().viewCoordX + ", " + gameInstance.getGameView().viewCoordY +")");
-			//Log.d(TAG, "dx: " + dx + '\n' + "dy: " + dy);
+			gameInstance.viewCoordX = this.shape.getCenter().x - gameInstance.width / 2;
+			gameInstance.viewCoordY = this.shape.getCenter().y - gameInstance.height / 2;
+			Log.d("GameObject", "viewCoords: (" + gameInstance.viewCoordX + ", " + gameInstance.viewCoordY +")");
 		}
 	}
 	
@@ -137,14 +123,7 @@ public class GameObject implements Observer, Subject {
 	
 	//To Do: generalize to work for circles
 	public boolean contains(double x, double y) {
-		if (x > this.absoluteX - this.objectWidth / 2 && 
-				x < this.absoluteX + this.objectWidth / 2 &&
-				y > this.absoluteY - this.objectHeight / 2  &&
-				y < this.absoluteY + this.objectHeight / 2) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.shape.contains(x,y);
 	}
 	
 	public double[] collide(ArrayList<boolean[]> collisions, double dx, double dy) {
@@ -162,13 +141,19 @@ public class GameObject implements Observer, Subject {
 		return returnVal;
 	}
 	
-	public void draw(Canvas canvas) {
+	public void draw(Canvas canvas, int viewCoordX, int viewCoordY) {
 		if (visible) {
+			Paint paint = new Paint();
+			paint.setColor(Color.BLACK);
+			paint.setStyle(Paint.Style.FILL);
 			if (animated) {
-				animation.draw(canvas, this.screenX - objectWidth / 2, this.screenY - objectHeight / 2);
+				Rectangle rect = (Rectangle)this.shape;
+				animation.draw(canvas, rect.getLeft() - viewCoordX, rect.getTop() - viewCoordY);
+			} else if (this.bitmap != null){
+				Rectangle rect = (Rectangle)this.shape;
+				canvas.drawBitmap(bitmap, rect.getLeft() - viewCoordX, rect.getTop() - viewCoordY, null);
 			} else {
-				canvas.drawBitmap(bitmap, screenX - objectWidth / 2,
-						screenY - objectHeight / 2, null);
+				canvas.drawCircle(this.shape.getCenter().x - viewCoordX, this.shape.getCenter().y - viewCoordY, 10, paint);
 			}
 		}
 	}
@@ -182,5 +167,10 @@ public class GameObject implements Observer, Subject {
 		destination = newDestination;
 		destination.attachObserver(this);
 		return newDestination;
+	}
+	
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+		this.shape = new Rectangle(this.shape.getCenter().x, this.shape.getCenter().y, animation.getWidth(), animation.getHeight());
 	}
 }

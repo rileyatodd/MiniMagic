@@ -18,6 +18,7 @@ public class Character extends GameObject {
 	public int remainingHealth;
 	public int Resistance;
 	public ArrayList<Spell> activeSpells;
+	public ArrayList<Spell> learnedSpells;
 	public ArrayList<PlayerEffect> activeEffects;
 	
 	
@@ -62,10 +63,10 @@ public class Character extends GameObject {
 	
 	public void autoAttack(GameObject target) {
 		Spell fireball = new Spell(this, target, BitmapFactory.decodeResource(gameInstance.gameActivity.getResources(), R.drawable.fireball),
-				this.absoluteX, this.absoluteY, gameInstance, name + "'s AutoAttack");
+				this.shape.getCenter().x, this.shape.getCenter().y, gameInstance, name + "'s AutoAttack");
 		fireball.destination = this.target;
 		fireball.speed = 10;
-		this.castSpell(fireball, this.absoluteX, this.absoluteY);
+		this.castSpell(fireball, this.shape.getCenter().x, this.shape.getCenter().y);
 		lastAttackTime = System.currentTimeMillis();
 	}
 	

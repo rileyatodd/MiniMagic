@@ -1,12 +1,13 @@
 package com.rileyatodd.MageGame.core;
 
-import com.rileyatodd.MageGame.Scenery;
-import com.rileyatodd.MageGame.userInterface.ButtonCallback;
-
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+
+import com.rileyatodd.MageGame.Scenery;
+import com.rileyatodd.MageGame.userInterface.Button;
+import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 
 public class Spell extends GameObject implements ButtonCallback {
 
@@ -39,8 +40,12 @@ public class Spell extends GameObject implements ButtonCallback {
 		}
 	}
 	
-	public void onButtonPress() {
-		gameInstance.player1.castSpell(this, 0, 0);
+	public void onButtonPress(Button button) {
+		onActivate(gameInstance.player1, 0, 0);
+	}
+	
+	public void onActivate(Character caster, int x, int y) {
+		onCast(caster, x, y);
 	}
 	
 	public void onCast(Character caster, int x, int y) {

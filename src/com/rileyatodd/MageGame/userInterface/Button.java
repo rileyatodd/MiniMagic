@@ -10,15 +10,27 @@ import android.view.MotionEvent;
 
 public class Button extends UIFrame {
 
-	public ButtonCallback buttonCallback;
-	public Bitmap bitmap;
-	public String text;
-	public Paint paint;
+	private ButtonCallback buttonCallback;
+	private Bitmap bitmap;
+	private String text;
+	public Paint backgroundPaint;
+	private Paint textPaint;
+	private Paint bitmapPaint;
 	
 	public Button(Rect bounds) {
 		super(bounds);
-		paint = new Paint();
-		paint.setColor(Color.BLACK);
+		backgroundPaint = new Paint();
+		backgroundPaint.setColor(Color.BLACK);
+		textPaint = new Paint();
+		textPaint.setTextAlign(Paint.Align.CENTER);
+	}
+	
+	public Button(Rect bounds, String text, Paint backgroundPaint) {
+		super(bounds);
+		this.backgroundPaint = backgroundPaint;
+		this.text = text;
+		textPaint = new Paint();
+		textPaint.setTextAlign(Paint.Align.CENTER);
 	}
 	
 	public void addButtonCallback(ButtonCallback buttonCallback) {
@@ -26,7 +38,7 @@ public class Button extends UIFrame {
 	}
 	
 	public void onClick() {
-		this.buttonCallback.onButtonPress();
+		this.buttonCallback.onButtonPress(this);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
@@ -44,6 +56,13 @@ public class Button extends UIFrame {
 	
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		canvas.drawRect(bounds, paint);
+		if (bitmap != null) {
+			canvas.drawBitmap(bitmap, bounds.left, bounds.top, bitmapPaint);
+		} else {
+			canvas.drawRect(bounds, backgroundPaint);
+		}
+		if (text != null) {
+			canvas.drawText(text, bounds.left + (bounds.right - bounds.left)/2, bounds.top + (bounds.bottom - bounds.top)/2, textPaint);
+		}
 	}
 }
