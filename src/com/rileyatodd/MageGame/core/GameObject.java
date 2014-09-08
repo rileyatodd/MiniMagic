@@ -2,11 +2,9 @@ package com.rileyatodd.MageGame.core;
 
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.rileyatodd.MageGame.Destination;
 
@@ -19,9 +17,7 @@ public class GameObject implements Observer, Subject {
 	public boolean centered = false;
 	public float speed = 5;
 	public boolean solid;
-	public boolean animated = false;
-	public Bitmap bitmap;
-	public Animation animation;
+	private Drawable drawable;
 	public Shape shape;
 	public boolean targetable;
 	public String name;
@@ -31,15 +27,16 @@ public class GameObject implements Observer, Subject {
 		return name + "@ (" + this.shape.getCenter().x + ", " + this.shape.getCenter().y + ")";
 	}
 	
-	public GameObject(Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
+	public GameObject(Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
 		this.gameInstance = gameInstance;
-		this.bitmap = bitmap;
+		this.drawable = drawable;
 		this.name = name;
 		this.solid = true;
-		if (bitmap == null && animation == null) {
+		if (drawable == null) {
 			this.shape = new Circle(x,y, 10);
+			this.drawable = shape;
 		} else {
-			this.shape = new Rectangle(x,y, bitmap.getWidth(), bitmap.getHeight());
+			this.shape = new Rectangle(x,y, drawable.getWidth(), drawable.getHeight());
 		}
 		this.targetable = false;
 	}
@@ -86,13 +83,12 @@ public class GameObject implements Observer, Subject {
 		if (this.centered) {
 			gameInstance.viewCoordX = this.shape.getCenter().x - gameInstance.width / 2;
 			gameInstance.viewCoordY = this.shape.getCenter().y - gameInstance.height / 2;
-			Log.d("GameObject", "viewCoords: (" + gameInstance.viewCoordX + ", " + gameInstance.viewCoordY +")");
 		}
 	}
 	
 	public void despawn() {
 		notifyObservers("despawn");
-		gameInstance.toRemove.add(this);
+		gameInstance.removeObject(this);
 	}
 	
 	//Implementation of Observer
@@ -146,15 +142,7 @@ public class GameObject implements Observer, Subject {
 			Paint paint = new Paint();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Paint.Style.FILL);
-			if (animated) {
-				Rectangle rect = (Rectangle)this.shape;
-				animation.draw(canvas, rect.getLeft() - viewCoordX, rect.getTop() - viewCoordY);
-			} else if (this.bitmap != null){
-				Rectangle rect = (Rectangle)this.shape;
-				canvas.drawBitmap(bitmap, rect.getLeft() - viewCoordX, rect.getTop() - viewCoordY, null);
-			} else {
-				canvas.drawCircle(this.shape.getCenter().x - viewCoordX, this.shape.getCenter().y - viewCoordY, 10, paint);
-			}
+			drawable.draw(canvas, paint, this.shape.getCenter().x - viewCoordX, this.shape.getCenter().y - viewCoordY);
 		}
 	}
 	
@@ -169,8 +157,12 @@ public class GameObject implements Observer, Subject {
 		return newDestination;
 	}
 	
-	public void setAnimation(Animation animation) {
-		this.animation = animation;
-		this.shape = new Rectangle(this.shape.getCenter().x, this.shape.getCenter().y, animation.getWidth(), animation.getHeight());
+	public void setDrawable(Drawable drawable) {
+		this.drawable = drawable;
+		this.shape = new Rectangle(this.shape.getCenter().x, this.shape.getCenter().y, drawable.getWidth(), drawable.getHeight());
+	}
+	
+	public Drawable getDrawable() {
+		return drawable;
 	}
 }

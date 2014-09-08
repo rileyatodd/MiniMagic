@@ -1,21 +1,22 @@
 package com.rileyatodd.MageGame.userInterface;
 
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.rileyatodd.MageGame.core.Drawable;
+
 public class Button extends UIFrame {
 
 	private ButtonCallback buttonCallback;
-	private Bitmap bitmap;
+	private Drawable drawable;
 	private String text;
 	public Paint backgroundPaint;
 	private Paint textPaint;
-	private Paint bitmapPaint;
+	private Paint drawablePaint;
 	
 	public Button(Rect bounds) {
 		super(bounds);
@@ -31,6 +32,7 @@ public class Button extends UIFrame {
 		this.text = text;
 		textPaint = new Paint();
 		textPaint.setTextAlign(Paint.Align.CENTER);
+		textPaint.setColor(Color.WHITE);
 	}
 	
 	public void addButtonCallback(ButtonCallback buttonCallback) {
@@ -46,7 +48,7 @@ public class Button extends UIFrame {
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 
-		if (this.bounds.contains(x,y) ) {
+		if (this.getBounds().contains(x,y) ) {
 			this.onClick();
 			retVal = true;
 		}
@@ -56,13 +58,21 @@ public class Button extends UIFrame {
 	
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		if (bitmap != null) {
-			canvas.drawBitmap(bitmap, bounds.left, bounds.top, bitmapPaint);
+		if (drawable != null) {
+			drawable.draw(canvas, drawablePaint, getBounds().left, getBounds().top);
 		} else {
-			canvas.drawRect(bounds, backgroundPaint);
+			canvas.drawRect(getBounds(), backgroundPaint);
 		}
 		if (text != null) {
-			canvas.drawText(text, bounds.left + (bounds.right - bounds.left)/2, bounds.top + (bounds.bottom - bounds.top)/2, textPaint);
+			canvas.drawText(text, getBounds().centerX(), getBounds().centerY(), textPaint);
 		}
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextAlign(Paint.Align.CENTER);
+		this.textPaint = paint;
 	}
 }

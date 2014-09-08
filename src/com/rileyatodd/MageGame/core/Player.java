@@ -1,12 +1,9 @@
 package com.rileyatodd.MageGame.core;
 
-
-import android.graphics.Bitmap;
-
 public class Player extends Character{
 	
-	public Player(int lvl, Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
-		super(lvl, bitmap, x, y, gameInstance, name);
+	public Player(int lvl, Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
+		super(lvl, drawable, x, y, gameInstance, name);
 		this.centered = true;
 		this.attackSpeed = 5;
 		this.remainingHealth = this.maxHealth - 5;

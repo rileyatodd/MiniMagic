@@ -1,8 +1,10 @@
 package com.rileyatodd.MageGame.core;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 
-public abstract class Shape {
+public abstract class Shape implements Drawable {
 	private Point center;
 	
 	public Shape(int x, int y) {
@@ -16,6 +18,12 @@ public abstract class Shape {
 	public Point getCenter() {
 		return center;
 	}
+	
+	public abstract void draw(Canvas canvas, Paint paint, int x, int y);
+	
+	public abstract int getHeight();
+	
+	public abstract int getWidth();
 	
 	public abstract boolean contains(double x, double y);
 }

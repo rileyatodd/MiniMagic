@@ -50,7 +50,7 @@ public class CharacterCard extends UIFrame {
 			canvas.drawRect(healthBar, healthBarPaint);
 			info = character.name + " " + character.lvl;
 			canvas.drawRect(infoBackground, infoBackgroundPaint);
-			canvas.drawText(info, bounds.right/2, healthBar.bottom + 20, infoPaint);
+			canvas.drawText(info, getBounds().right/2, healthBar.bottom + 20, infoPaint);
 		}
 	}
 	

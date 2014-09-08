@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.rileyatodd.MageGame.R;
 import com.rileyatodd.MageGame.core.Animation;
+import com.rileyatodd.MageGame.core.BitmapDrawable;
 import com.rileyatodd.MageGame.core.Character;
+import com.rileyatodd.MageGame.core.Drawable;
 import com.rileyatodd.MageGame.core.GameInstance;
 import com.rileyatodd.MageGame.core.GameObject;
 import com.rileyatodd.MageGame.core.Spell;
@@ -15,23 +17,21 @@ import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 
 public class Flash extends Spell implements ButtonCallback {
 
-	public Flash(GameObject caster, GameObject destination, Bitmap bitmap,
+	public Flash(GameObject caster, GameObject destination, Drawable drawable,
 			int x, int y, GameInstance gameInstance, String name) {
-		super(caster, destination, bitmap, x, y, gameInstance, name);
+		super(caster, destination, drawable, x, y, gameInstance, name);
 		paint.setColor(Color.YELLOW);
 		this.range = 500;
-		this.animated = true;
-		Animation animationT = new Animation();
-		animationT.framesPerSecond = 15;
+		Animation animationT = new Animation(1);
 		Bitmap lightning = BitmapFactory.decodeResource(gameInstance.gameActivity.resources, R.drawable.lightning);
 		Bitmap reverseLightning = BitmapFactory.decodeResource(gameInstance.gameActivity.resources, R.drawable.lightningreverse);
-		animationT.bitmaps.add(lightning);
-		animationT.bitmaps.add(reverseLightning);
-		animationT.bitmaps.add(lightning);
-		animationT.bitmaps.add(reverseLightning);
-		animationT.setWidth(animationT.bitmaps.get(0).getWidth());
-		animationT.setHeight(animationT.bitmaps.get(0).getHeight());
-		this.setAnimation(animationT);
+		animationT.addFrame(new BitmapDrawable(lightning), 100);
+		animationT.addFrame(new BitmapDrawable(reverseLightning), 100);
+		animationT.addFrame(new BitmapDrawable(lightning), 200);
+		animationT.addFrame(new BitmapDrawable(reverseLightning), 100);
+		animationT.setWidth(lightning.getWidth());
+		animationT.setHeight(lightning.getHeight());
+		this.setDrawable(animationT);
 	}
 	
 	public void onActivate(Character caster, int x, int y) {
@@ -48,18 +48,19 @@ public class Flash extends Spell implements ButtonCallback {
 			caster.move(x, y);
 			gameInstance.gameActivity.gameView.selectedSpell = null;
 			this.move(x, y);
-			gameInstance.toAdd.add(this);
-			animation.start();
+			gameInstance.addObject(this);
 			Log.d("Flash", "Used");
 		}
 	}
-	
+
 	public void update() {
-		//If the animation is not running, remove from gameObjects
-		if (animation.running) {
-			super.update();
+		//If the animation is not running, remove from gameObjects	
+		Animation animation = (Animation)this.getDrawable();
+		if (!animation.running && animation.getRepNum() >= animation.getRepetitions()) {
+			gameInstance.removeObject(this);
+			animation.reset();
 		} else {
-			gameInstance.toRemove.add(this);
+			super.update();
 		}
 	}
 }

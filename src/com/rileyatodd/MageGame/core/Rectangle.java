@@ -1,6 +1,9 @@
 package com.rileyatodd.MageGame.core;
 
-public class Rectangle extends Shape{
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+public class Rectangle extends Shape {
 	private int width;
 	private int height;
 	
@@ -37,5 +40,21 @@ public class Rectangle extends Shape{
 	
 	public int getBottom() {
 		return getCenter().y + height/2;
+	}
+
+	@Override
+	public void draw(Canvas canvas, Paint paint, int x, int y) {
+		canvas.drawRect(getLeft(), getTop(), getRight(), getBottom(), paint);
+		
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
 	}
 }

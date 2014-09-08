@@ -16,6 +16,8 @@ import android.view.SurfaceView;
 import com.rileyatodd.MageGame.R;
 import com.rileyatodd.MageGame.userInterface.Button;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
+import com.rileyatodd.MageGame.userInterface.InGameMenu;
+import com.rileyatodd.MageGame.userInterface.MenuPage;
 import com.rileyatodd.MageGame.userInterface.UIFrame;
 //View for the main game screen
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -84,6 +86,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		boolean retry = true;
 		while (retry) {
 			try {
+				renderThread.setRunning(false);
 				renderThread.join();
 				retry = false;
 			} catch (InterruptedException e){
@@ -104,7 +107,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			if (selectedSpell != null) {
 				gameInstance.player1.castSpell(selectedSpell, (int)x + gameInstance.viewCoordX, (int)y + gameInstance.viewCoordY);
-				Log.d("GameView", "Should have just casted: " + selectedSpell);
 				return true;
 			}
 			// Otherwise check if you are targeting something
@@ -128,7 +130,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						   										this.gameInstance, "crosshairs");
 				playerDestination.attachObserver(gameInstance.player1);
 				gameInstance.player1.destination = playerDestination;
-				gameInstance.toAdd.add(playerDestination);		
+				gameInstance.addObject(playerDestination);		
 			}
 			return true;
 		}
@@ -180,5 +182,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Log.d("GameView", "Added " + spell.name + " to spellFrame");
 		}
 		uiFrame.addChildFrame(spellFrame);
+		
+		//Create Menu Frame
+		bounds.set(0,0,width,height);
+		InGameMenu menuFrame = new InGameMenu(bounds);
+		//Add Menu Pages
+		menuFrame.addMenuPage(new MenuPage(bounds, "spell selection"));
+		
+		//Add to main UIFrame
+		uiFrame.addChildFrame(menuFrame);
+		
 	}
 }

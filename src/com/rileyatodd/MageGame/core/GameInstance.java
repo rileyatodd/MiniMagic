@@ -21,8 +21,8 @@ public class GameInstance {
 	public GameMap gameMap;
 	public Player player1;
 	public ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
-	public ArrayList<GameObject> toAdd = new ArrayList<GameObject>();
-	public ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
+	private ArrayList<GameObject> toAdd = new ArrayList<GameObject>();
+	private ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
 	public CharacterCard targetFrame;
 	public int viewCoordX;
 	public int viewCoordY;
@@ -37,13 +37,21 @@ public class GameInstance {
 		this.player1 = new Player(1, null, width / 2, height / 2, this, "p1");
 		this.gameObjects.add(player1);
 		Bitmap block = BitmapFactory.decodeResource(gameActivity.resources, R.drawable.dice);
-		Character boss = new Character(1, block, player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150, this, "block");
+		Character boss = new Character(1, new BitmapDrawable(block), player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150, this, "block");
 		boss.targetable=true;
 		//boss.target = player1;
 		this.gameObjects.add(boss);
 		this.gameMap = new GameMap(this);
 		this.gameMap.gameInstance = this;
 		
+	}
+	
+	public void removeObject(GameObject object) {
+		this.toRemove.add(object);
+	}
+	
+	public void addObject(GameObject object) {
+		this.toAdd.add(object);
 	}
 	
 	//updates game state

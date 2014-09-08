@@ -1,6 +1,5 @@
 package com.rileyatodd.MageGame.core;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
@@ -16,8 +15,8 @@ public class Spell extends GameObject implements ButtonCallback {
 	public Paint paint;
 	public int range;
 	
-	public Spell(GameObject caster, GameObject destination, Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
-		super(bitmap, x, y, gameInstance, name);
+	public Spell(GameObject caster, GameObject destination, Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
+		super(drawable, x, y, gameInstance, name);
 		this.solid = false;
 		this.caster = caster;
 		this.attachObserver(caster);
@@ -50,7 +49,7 @@ public class Spell extends GameObject implements ButtonCallback {
 	
 	public void onCast(Character caster, int x, int y) {
 		//default behavior is to initialize itself and add itself to the gameInstance
-		gameInstance.toAdd.add(this);
+		gameInstance.addObject(this);
 		this.attachObserver(caster);
 		this.destination.attachObserver(this);
 	}

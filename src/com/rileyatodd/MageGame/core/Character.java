@@ -2,7 +2,6 @@ package com.rileyatodd.MageGame.core;
 
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.rileyatodd.MageGame.R;
@@ -22,8 +21,8 @@ public class Character extends GameObject {
 	public ArrayList<PlayerEffect> activeEffects;
 	
 	
-	public Character(int lvl, Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
-		super(bitmap, x, y, gameInstance, name);
+	public Character(int lvl, Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
+		super(drawable, x, y, gameInstance, name);
 		this.lvl = lvl;
 		this.maxHealth = this.lvl * 20;
 		this.remainingHealth = this.maxHealth;
@@ -62,7 +61,7 @@ public class Character extends GameObject {
 	}
 	
 	public void autoAttack(GameObject target) {
-		Spell fireball = new Spell(this, target, BitmapFactory.decodeResource(gameInstance.gameActivity.getResources(), R.drawable.fireball),
+		Spell fireball = new Spell(this, target, new BitmapDrawable(BitmapFactory.decodeResource(gameInstance.gameActivity.getResources(), R.drawable.fireball)),
 				this.shape.getCenter().x, this.shape.getCenter().y, gameInstance, name + "'s AutoAttack");
 		fireball.destination = this.target;
 		fireball.speed = 10;

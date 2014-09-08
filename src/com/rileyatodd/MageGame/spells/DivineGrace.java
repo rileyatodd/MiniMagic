@@ -1,19 +1,19 @@
 package com.rileyatodd.MageGame.spells;
 
+import android.graphics.Color;
+
 import com.rileyatodd.MageGame.core.Character;
+import com.rileyatodd.MageGame.core.Drawable;
 import com.rileyatodd.MageGame.core.GameInstance;
 import com.rileyatodd.MageGame.core.GameObject;
 import com.rileyatodd.MageGame.core.PlayerEffect;
 import com.rileyatodd.MageGame.core.Spell;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-
 public class DivineGrace extends Spell {
 
 	public DivineGrace(GameObject caster, GameObject destination,
-			Bitmap bitmap, int x, int y, GameInstance gameInstance, String name) {
-		super(caster, destination, bitmap, x, y, gameInstance, name);
+			Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
+		super(caster, destination, drawable, x, y, gameInstance, name);
 		paint.setColor(Color.WHITE);
 	}
 	
