@@ -1,14 +1,13 @@
 package com.rileyatodd.MageGame.core;
 
-import com.rileyatodd.MageGame.userInterface.CharacterCard;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.rileyatodd.MageGame.userInterface.CharacterCard;
 
 public class GameActivity extends Activity {
 
@@ -18,7 +17,7 @@ public class GameActivity extends Activity {
 	private RenderThread renderThread;
 	public Resources resources;
 	public CharacterCard targetFrame;
-	@SuppressLint("NewApi")
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

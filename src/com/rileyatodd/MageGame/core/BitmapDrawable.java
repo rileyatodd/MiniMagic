@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 
-public class BitmapDrawable implements Drawable{
+public class BitmapDrawable implements Drawable {
 	Bitmap bitmap;
 
 	public BitmapDrawable(Bitmap bitmap) {

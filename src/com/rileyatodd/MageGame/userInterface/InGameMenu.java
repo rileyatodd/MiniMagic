@@ -36,6 +36,7 @@ public class InGameMenu extends UIFrame implements ButtonCallback {
 		organizeButtons();
 	}
 	
+	//resizes bounds of the onButtons for each menuPage so that they are all stacked vertically
 	public void organizeButtons() {
 		int buttonHeight = (this.getBounds().height() -100)/ menuPages.size();
 		Rect bounds = new Rect(getBounds().left + 50, getBounds().top + 50, getBounds().right - 50, getBounds().top + 50 + buttonHeight);
@@ -52,13 +53,16 @@ public class InGameMenu extends UIFrame implements ButtonCallback {
 				Log.d("InGameMenu", page.name + " selected");
 			} else if (button == page.offButton) {
 				setActivePage(null);
+				Log.d("InGameMenu", "Off button pressed");
 			}
 		}
 		if (button == openCloseButton) {
 			if (open) {
 				close();
+				Log.d("InGameMenu", "Menu closed");
 			} else {
 				open();
+				Log.d("InGameMenu", "Menu opened");
 			}
 		}
 	}
@@ -75,16 +79,18 @@ public class InGameMenu extends UIFrame implements ButtonCallback {
 			if (activePage == null) {
 				for (MenuPage eachPage: menuPages) {
 					removeChildFrame(eachPage.onButton);
-					Log.d("InGameMenu", "Removed on buttons");
 				}
-				addChildFrame(page);
 			} else {
 				removeChildFrame(activePage);
-				addChildFrame(page);
 			}
+			addChildFrame(page);
 		}
 		activePage = page;
-		Log.d("InGameMenu", ""+activePage);
+		if (activePage != null) {
+			Log.d("InGameMenu", "active page: "+ activePage.name);
+		} else {
+			Log.d("InGameMenu", "active page: null");
+		}
 	}
 	
 	public void open() {
@@ -95,7 +101,11 @@ public class InGameMenu extends UIFrame implements ButtonCallback {
 		open = true;
 	}
 	
+	//closing the menu while a page is active results in weird behavior so currently im inactivating it on close
 	public void close() {
+		//deactivate active page
+		setActivePage(null);
+		
 		//Remove child frames
 		for (UIFrame frame : this.getChildFrames()) {
 			removeChildFrame(frame);

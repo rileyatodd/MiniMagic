@@ -187,7 +187,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		bounds.set(0,0,width,height);
 		InGameMenu menuFrame = new InGameMenu(bounds);
 		//Add Menu Pages
-		menuFrame.addMenuPage(new MenuPage(bounds, "spell selection"));
+		menuFrame.addMenuPage(new MenuPage(new Rect(bounds.left + 50, bounds.top+50, bounds.right-50,bounds.bottom-50), "spell selection"));
 		
 		//Add to main UIFrame
 		uiFrame.addChildFrame(menuFrame);

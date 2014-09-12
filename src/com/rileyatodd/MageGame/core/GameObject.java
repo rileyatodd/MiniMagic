@@ -18,6 +18,7 @@ public class GameObject implements Observer, Subject {
 	public float speed = 5;
 	public boolean solid;
 	private Drawable drawable;
+	private Paint drawablePaint;
 	public Shape shape;
 	public boolean targetable;
 	public String name;
@@ -39,13 +40,18 @@ public class GameObject implements Observer, Subject {
 			this.shape = new Rectangle(x,y, drawable.getWidth(), drawable.getHeight());
 		}
 		this.targetable = false;
+		this.drawablePaint = new Paint();
+		drawablePaint.setColor(Color.BLACK);
+		drawablePaint.setStyle(Paint.Style.FILL);
 	}
 	
 	public void move(int x, int y) {
 		this.shape.setCenter(x, y);
 	}
-		
+	
+	long longestUpdateTime = 0;
 	public void update() {
+		
 		//If the object is moving calculate dx/dy, detect collisions, and then recalculate dx/dy accordingly
 		double dx = 0;
 		double dy = 0;
@@ -62,6 +68,8 @@ public class GameObject implements Observer, Subject {
 				} else {
 					dy = (yDistance / Math.abs(yDistance)) * speed;
 				}
+			} else if (yDistance == 0) {
+				dx = (xDistance / Math.abs(xDistance)) * speed;
 			} else {
 				float m = (float)yDistance/xDistance;
 				dx = (xDistance / Math.abs(xDistance)) * (Math.sqrt(speed*speed / (m*m + 1)));
@@ -73,7 +81,7 @@ public class GameObject implements Observer, Subject {
 			double[] dp = collide(collisions, dx, dy);
 			dx = dp[0];
 			dy = dp[1];
-
+			
 		}
 		
 		//With correct coordinates determined, move the object
@@ -84,6 +92,7 @@ public class GameObject implements Observer, Subject {
 			gameInstance.viewCoordX = this.shape.getCenter().x - gameInstance.width / 2;
 			gameInstance.viewCoordY = this.shape.getCenter().y - gameInstance.height / 2;
 		}
+		
 	}
 	
 	public void despawn() {
@@ -139,10 +148,7 @@ public class GameObject implements Observer, Subject {
 	
 	public void draw(Canvas canvas, int viewCoordX, int viewCoordY) {
 		if (visible) {
-			Paint paint = new Paint();
-			paint.setColor(Color.BLACK);
-			paint.setStyle(Paint.Style.FILL);
-			drawable.draw(canvas, paint, this.shape.getCenter().x - viewCoordX, this.shape.getCenter().y - viewCoordY);
+			drawable.draw(canvas, drawablePaint, this.shape.getCenter().x - viewCoordX, this.shape.getCenter().y - viewCoordY);
 		}
 	}
 	

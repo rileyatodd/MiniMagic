@@ -2,7 +2,6 @@ package com.rileyatodd.MageGame.core;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.rileyatodd.MageGame.Scenery;
 import com.rileyatodd.MageGame.userInterface.Button;
@@ -10,7 +9,6 @@ import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 
 public class Spell extends GameObject implements ButtonCallback {
 
-	private static final String TAG = "Spell";
 	public GameObject caster;
 	public Paint paint;
 	public int range;
@@ -26,7 +24,6 @@ public class Spell extends GameObject implements ButtonCallback {
 	
 	@Override
 	public void onCollision(GameObject object){
-		Log.d("Spell", "onCollision called");
 		if (object instanceof Character && object != caster) {
 			Character character = (Character) object;
 			damageTarget(character, 1);
@@ -34,7 +31,6 @@ public class Spell extends GameObject implements ButtonCallback {
 		}
 		
 		if (object instanceof Scenery) {
-			Log.d(TAG, "spell collided with scenery");
 			this.despawn();
 		}
 	}

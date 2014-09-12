@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.rileyatodd.MageGame.R;
+import com.rileyatodd.MageGame.Rift;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
 
 //Acts as container for all GameObjects, handles updating the game state by looping through all
@@ -37,9 +38,9 @@ public class GameInstance {
 		this.player1 = new Player(1, null, width / 2, height / 2, this, "p1");
 		this.gameObjects.add(player1);
 		Bitmap block = BitmapFactory.decodeResource(gameActivity.resources, R.drawable.dice);
-		Character boss = new Character(1, new BitmapDrawable(block), player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150, this, "block");
+		Rift boss = new Rift(1, new BitmapDrawable(block), player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150, this, "block");
 		boss.targetable=true;
-		//boss.target = player1;
+		boss.setTarget(player1);
 		this.gameObjects.add(boss);
 		this.gameMap = new GameMap(this);
 		this.gameMap.gameInstance = this;
