@@ -7,14 +7,14 @@ public class Circle extends Shape {
 
 	public int radius;
 	
-	public Circle(int x, int y, int r) {
-		super(x,y);
+	public Circle(Point center, int r) {
+		super(center);
 		this.radius = r;
 	}
 	
 	@Override
-	public boolean contains(double x, double y) {
-		return radius*radius >= ((x - getCenter().x)*(x - getCenter().x) + (y - getCenter().y)*(y - getCenter().y));
+	public boolean contains(Point point) {
+		return radius*radius >= ((point.x - getCenter().x)*(point.x - getCenter().x) + (point.y - getCenter().y)*(point.y - getCenter().y));
 	}
 
 	@Override

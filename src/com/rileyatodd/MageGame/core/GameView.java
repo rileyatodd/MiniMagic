@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -21,29 +20,39 @@ import com.rileyatodd.MageGame.userInterface.MenuPage;
 import com.rileyatodd.MageGame.userInterface.UIFrame;
 //View for the main game screen
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	public RenderThread renderThread;
-	public GameInstance gameInstance;
-	public GameActivity gameActivity;
+	private MainThread mainThread;
+	private GameInstance gameInstance;
+	private GameActivity gameActivity;
 	public int width;
 	public int height;
 	private final static String TAG = GameView.class.getSimpleName();
-	public UIFrame uiFrame;
-	public Spell selectedSpell = null;
+	private UIFrame uiFrame;
 	
 	@SuppressLint("NewApi")
 	public GameView(Context c, AttributeSet attrs) {
 		super(c, attrs);
 		TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.GameView);
-		
 		gameActivity = (GameActivity) c;
-		SurfaceHolder holder = getHolder();
-		holder.addCallback(this);
+		
+		//This class will intercept and handle events from SurfaceHolder.Callback
+		getHolder().addCallback(this);
 		setFocusable(true);
+		
+		//Find size of display in pixels
 		Display display = gameActivity.getWindowManager().getDefaultDisplay();
-		Point size = new Point();
+		android.graphics.Point size = new android.graphics.Point();
 		display.getSize(size);
 		this.width = size.x;
 		this.height = size.y;
+		
+		//Create the game instance
+		gameInstance = new GameInstance(gameActivity, width, height);	
+		Log.d("GameView", "gameInstance set");
+		
+		loadUI();
+		
+		//Create the main thread
+		mainThread = new MainThread(getHolder(), this);
 		
 		a.recycle();
 	}
@@ -51,15 +60,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	@SuppressLint("NewApi")
 	public GameView(Context context) {
 		super(context);
+		
 		gameActivity = (GameActivity) context;
-		SurfaceHolder holder = getHolder();
-		holder.addCallback(this);
+		
+		//This class will intercept and handle events from SurfaceHolder.Callback
+		getHolder().addCallback(this);
 		setFocusable(true);
+		
+		//Find size of display in pixels
 		Display display = gameActivity.getWindowManager().getDefaultDisplay();
-		Point size = new Point();
+		android.graphics.Point size = new android.graphics.Point();
 		display.getSize(size);
 		this.width = size.x;
 		this.height = size.y;
+		
+		//Create the game instance
+		gameInstance = new GameInstance(gameActivity, width, height);	
+		Log.d("GameView", "gameInstance set");
+		
+		loadUI();
+		
+		//Create the main thread
+		mainThread = new MainThread(getHolder(), this);
 	}
 	
 	@Override
@@ -77,17 +99,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		renderThread.setRunning(true);
-		renderThread.start();
+		Log.d("GameView", "SurfaceCreated");
+		mainThread.setRunning(true);
+		mainThread.start();
 	}
 	
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.d("GameView", "SurfaceDestroyed");
 		boolean retry = true;
 		while (retry) {
 			try {
-				renderThread.setRunning(false);
-				renderThread.join();
+				mainThread.join();
 				retry = false;
 			} catch (InterruptedException e){
 				//Try again to shut down the gameThread
@@ -105,14 +128,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (uiFrame.onTouchEvent(event)) {
 				return true;
 			}
-			if (selectedSpell != null) {
-				gameInstance.player1.castSpell(selectedSpell, (int)x + gameInstance.viewCoordX, (int)y + gameInstance.viewCoordY);
+			if (gameInstance.getSelectedSpell() != null) {
+				gameInstance.player1.castSpell(gameInstance.getSelectedSpell(), new Point((int)x + gameInstance.getViewLoc().x, (int)y + gameInstance.getViewLoc().y));
 				return true;
 			}
 			// Otherwise check if you are targeting something
 			for (int i = 0; i < gameInstance.gameObjects.size(); i++) {
 				GameObject object = gameInstance.gameObjects.get(i);
-				if (object.targetable && object.contains(x + gameInstance.viewCoordX, y + gameInstance.viewCoordY)) {
+				if (object.targetable && object.shape.contains(new Point((int)(x + gameInstance.getViewLoc().x), (int)(y + gameInstance.getViewLoc().y)))) {
 					gameInstance.player1.setTarget(object);
 					Log.d(TAG, "Object selected");
 					targetedSomething = true;
@@ -121,15 +144,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			//And if you're just clicking on empty space, make a destination
 			if (!targetedSomething) {
 				//Remove previous player destination if there is one
-				if (gameInstance.player1.destination != null){
-					gameInstance.player1.destination.despawn();
+				if (gameInstance.player1.getDestination() != null){
+					gameInstance.player1.getDestination().despawn();
 				}
 				//Create new player destination and add the player as an observer of it
-				GameObject playerDestination = gameInstance.player1.createDestination( (int)(x + gameInstance.viewCoordX),
-						   										(int)(y + gameInstance.viewCoordY),
+				GameObject playerDestination = gameInstance.player1.createDestination( (int)(x + gameInstance.getViewLoc().x),
+						   										(int)(y + gameInstance.getViewLoc().y),
 						   										this.gameInstance, "crosshairs");
 				playerDestination.attachObserver(gameInstance.player1);
-				gameInstance.player1.destination = playerDestination;
+				gameInstance.player1.setDestination(playerDestination);
 				gameInstance.addObject(playerDestination);		
 			}
 			return true;
@@ -137,10 +160,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		return super.onTouchEvent(event);
 	}
 	
-	@SuppressLint("WrongCall")
-	public void onDraw(Canvas canvas) {
+	public void render(Canvas canvas) {
 		canvas.drawColor(android.graphics.Color.BLACK);
-		gameInstance.onDraw(canvas);
+		gameInstance.render(canvas);
 		uiFrame.draw(canvas);
 	}
 	
@@ -177,9 +199,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			right+=buttonWidth;
 			Button button = new Button(bounds);
 			button.addButtonCallback(spell);
-			button.backgroundPaint.setColor(spell.paint.getColor());
+			button.backgroundPaint.setColor(spell.getPaint().getColor());
 			spellFrame.addChildFrame(button);
-			Log.d("GameView", "Added " + spell.name + " to spellFrame");
+			Log.d("GameView", "Added " + spell.getClass().getCanonicalName() + " to spellFrame");
 		}
 		uiFrame.addChildFrame(spellFrame);
 		
@@ -192,5 +214,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		//Add to main UIFrame
 		uiFrame.addChildFrame(menuFrame);
 		
+	}
+	
+	public void update() {
+		this.gameInstance.updateState();
 	}
 }

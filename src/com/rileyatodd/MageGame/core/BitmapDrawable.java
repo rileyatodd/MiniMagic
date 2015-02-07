@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 
 public class BitmapDrawable implements Drawable {
-	Bitmap bitmap;
+	private Bitmap bitmap;
 
 	public BitmapDrawable(Bitmap bitmap) {
 		this.bitmap = bitmap;

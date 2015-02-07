@@ -50,7 +50,6 @@ public class Animation implements Drawable {
 			if (repNum == repetitions) {//Setting repNums to -1 induces infite looping 
 				running = false;
 				Log.d("Animation", "stopping animation");
-				//Maybe have this trigger something else like the deletion of the thing using it
 			} 
 		}
 	}

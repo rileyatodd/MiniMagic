@@ -2,18 +2,19 @@ package com.rileyatodd.MageGame.core;
 
 import java.util.ArrayList;
 
-import android.graphics.BitmapFactory;
+import android.util.Log;
 
-import com.rileyatodd.MageGame.R;
 import com.rileyatodd.MageGame.spells.DivineGrace;
+import com.rileyatodd.MageGame.spells.Fireball;
 import com.rileyatodd.MageGame.spells.Flash;
 
 public class Character extends GameObject {
-	public int lvl;
-	public GameObject target = null;
-	public int attackSpeed = 10;
-	public long lastAttackTime;
-	public int maxHealth;
+	private int lvl;
+	private GameObject target = null;
+	private Spell autoAttack;
+	private float power = 1;
+	private float haste = 1;
+	private int maxHealth;
 	public int remainingHealth;
 	public int Resistance;
 	public ArrayList<Spell> activeSpells;
@@ -21,19 +22,22 @@ public class Character extends GameObject {
 	public ArrayList<PlayerEffect> activeEffects;
 	
 	
-	public Character(int lvl, Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
-		super(drawable, x, y, gameInstance, name);
-		this.lvl = lvl;
-		this.maxHealth = this.lvl * 20;
-		this.remainingHealth = this.maxHealth;
-		lastAttackTime = 0;
+	public Character(int lvl, GameInstance gameInstance, Drawable drawable, Point loc, String name) {
+		super(gameInstance, drawable, loc, name);
+		this.setLvl(lvl);
+		this.setMaxHealth(this.getLvl() * 20);
+		this.remainingHealth = this.getMaxHealth();
 		activeEffects = new ArrayList<PlayerEffect>();
 		activeSpells = new ArrayList<Spell>();
-		Spell spell1 = new DivineGrace(this, null, null, 0, 0, gameInstance, "DivineGrace");
-		activeSpells.add(spell1);
-		Spell spell2 = new Flash(this, null, null, 0, 0, gameInstance, "Flash");
-		activeSpells.add(spell2);
-		
+		activeSpells.add(new DivineGrace(gameInstance));
+		activeSpells.add(new Flash(gameInstance));
+		setAutoAttack(new Fireball(gameInstance));
+	}
+	
+	public Character(Character other) {
+		super(other.gameInstance, other.getDrawable(), other.shape.getCenter(), other.name);
+		this.lvl = other.getLvl();
+		this.setMaxHealth(other.getMaxHealth());
 	}
 	
 	public void die() {
@@ -47,8 +51,9 @@ public class Character extends GameObject {
 			super.update();	
 			//if timer is up, auto-attack
 			if (target != null) {
-				if (System.currentTimeMillis() - lastAttackTime > 1000/attackSpeed) {
-					this.autoAttack(target);
+				if (autoAttack.getRemainingCooldown() <= 0) {
+					Log.d("Character", "AutoAttaking");
+					this.castSpell(getAutoAttack(), this.shape.getCenter());
 				}
 			}
 			//Handle conditions
@@ -60,24 +65,14 @@ public class Character extends GameObject {
 		}
 	}
 	
-	public void autoAttack(GameObject target) {
-		Spell fireball = new Spell(this, target, new BitmapDrawable(BitmapFactory.decodeResource(gameInstance.gameActivity.getResources(), R.drawable.fireball)),
-				this.shape.getCenter().x, this.shape.getCenter().y, gameInstance, name + "'s AutoAttack");
-		fireball.destination = this.target;
-		fireball.speed = 10;
-		this.castSpell(fireball, this.shape.getCenter().x, this.shape.getCenter().y);
-		lastAttackTime = System.currentTimeMillis();
-	}
-	
-	
 	//get/set lvl
 	public void setLvl(int x) {
 		this.lvl = x;
-		this.maxHealth = this.lvl * 20;
-		this.remainingHealth = this.maxHealth;
+		this.setMaxHealth(this.lvl * 20);
+		this.remainingHealth = this.getMaxHealth();
 	}
 	public int getLevel() {
-		return this.lvl;
+		return this.getLvl();
 	}
 	
 	//get/set target
@@ -100,8 +95,17 @@ public class Character extends GameObject {
 		notifyObservers("health");
 	}
 	
-	public void castSpell(Spell spell, int x, int y) {
-		spell.onCast(this, x, y);
+	public void castSpell(Spell spell, Point loc) {
+		spell.onCast(this, new Point(loc));
+	}
+	
+	public void damage(int amount) {
+		this.setHealth(this.remainingHealth - amount);
+	}
+	
+	public void heal(int amount) {
+		int newTotal = remainingHealth + amount;
+		remainingHealth = newTotal <= getMaxHealth() ? newTotal: getMaxHealth();
 	}
 	
 	public void updateSubject(Subject sub, String message) {
@@ -111,6 +115,42 @@ public class Character extends GameObject {
 			}
 		}
 		super.updateSubject(sub, message);
+	}
+
+	public int getLvl() {
+		return lvl;
+	}
+
+	public float getPower() {
+		return power;
+	}
+
+	public void setPower(float power) {
+		this.power = power;
+	}
+
+	public Spell getAutoAttack() {
+		return autoAttack;
+	}
+
+	public void setAutoAttack(Spell autoAttack) {
+		this.autoAttack = autoAttack;
+	}
+
+	public float getHaste() {
+		return haste;
+	}
+
+	public void setHaste(float haste) {
+		this.haste = haste;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
 }

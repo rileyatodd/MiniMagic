@@ -48,7 +48,7 @@ public class CharacterCard extends UIFrame {
 		if (character != null) {
 			canvas.drawRect(healthBackground, healthBackgroundPaint);
 			canvas.drawRect(healthBar, healthBarPaint);
-			info = character.name + " " + character.lvl;
+			info = character.name + " " + character.getLvl();
 			canvas.drawRect(infoBackground, infoBackgroundPaint);
 			canvas.drawText(info, getBounds().right/2, healthBar.bottom + 20, infoPaint);
 		}
@@ -60,7 +60,7 @@ public class CharacterCard extends UIFrame {
 			setCharacter((Character) p1.getTarget());
 		} else if (object instanceof Character) {
 			Character character = (Character) object;
-			int newRight = (int) (character.remainingHealth / (double) character.maxHealth * healthBackground.width());
+			int newRight = (int) (character.remainingHealth / (double) character.getMaxHealth() * healthBackground.width());
 			healthBar.set(healthBar.left, healthBar.top, newRight, healthBar.bottom);
 		}
 	}

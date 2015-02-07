@@ -3,58 +3,42 @@ package com.rileyatodd.MageGame.core;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.rileyatodd.MageGame.Scenery;
 import com.rileyatodd.MageGame.userInterface.Button;
 import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 
-public class Spell extends GameObject implements ButtonCallback {
+public class Spell implements ButtonCallback {
 
-	public GameObject caster;
-	public Paint paint;
-	public int range;
+	protected GameInstance gameInstance;
+	private Paint paint;
+	private int baseCooldown; //Cooldown time in milliseconds. For auto attacks this dictates the speed at which they are cast.
+	private int actualCooldown; //Effective CD after haste etc.
+	private long lastCastTime;
+	private int range;
 	
-	public Spell(GameObject caster, GameObject destination, Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
-		super(drawable, x, y, gameInstance, name);
-		this.solid = false;
-		this.caster = caster;
-		this.attachObserver(caster);
-		paint = new Paint();
-		paint.setColor(Color.WHITE);
-	}
-	
-	@Override
-	public void onCollision(GameObject object){
-		if (object instanceof Character && object != caster) {
-			Character character = (Character) object;
-			damageTarget(character, 1);
-			this.despawn();
-		}
-		
-		if (object instanceof Scenery) {
-			this.despawn();
-		}
+	public Spell(GameInstance gameInstance) {
+		this.gameInstance = gameInstance;
+		setPaint(new Paint());
+		getPaint().setColor(Color.WHITE);
 	}
 	
 	public void onButtonPress(Button button) {
-		onActivate(gameInstance.player1, 0, 0);
+		onActivate(gameInstance.player1, new Point(0,0));
 	}
 	
-	public void onActivate(Character caster, int x, int y) {
-		onCast(caster, x, y);
+	public void onActivate(Character caster, Point loc) {
+		onCast(caster, loc);
 	}
 	
-	public void onCast(Character caster, int x, int y) {
-		//default behavior is to initialize itself and add itself to the gameInstance
-		gameInstance.addObject(this);
-		this.attachObserver(caster);
-		this.destination.attachObserver(this);
+	public void onCast(Character caster, Point loc) {
+		actualCooldown = (int)(getBaseCooldown() / caster.getHaste());
+		lastCastTime = System.currentTimeMillis();
 	}
 	
 	public void healTarget(Character target, int amount) {
-		if (amount < target.maxHealth - target.remainingHealth) {
+		if (amount < target.getMaxHealth() - target.remainingHealth) {
 			target.remainingHealth += amount;
 		} else {
-			target.remainingHealth = target.maxHealth;
+			target.remainingHealth = target.getMaxHealth();
 		}
 		target.notifyObservers("health");
 	}
@@ -64,11 +48,41 @@ public class Spell extends GameObject implements ButtonCallback {
 		target.notifyObservers("health");
 	}
 	
-	public void updateSubject(Subject sub, String message) {
-		if (message.equals("despawn")) {
-			if (sub == destination) {
-				despawn();
-			}
-		}
+
+	
+	public Paint getPaint() {
+		return paint;
+	}
+
+	public void setPaint(Paint paint) {
+		this.paint = paint;
+	}
+
+	public int getCooldown() {
+		return actualCooldown;
+	}
+
+	public long getRemainingCooldown() {
+		return actualCooldown - (System.currentTimeMillis() - lastCastTime);
+	}
+	
+	public void setCooldown(int cooldown) {
+		this.actualCooldown = cooldown;
+	}
+	
+	public int getRange() {
+		return range;
+	}
+
+	public void setRange(int range) {
+		this.range = range;
+	}
+
+	public int getBaseCooldown() {
+		return baseCooldown;
+	}
+
+	public void setBaseCooldown(int baseCooldown) {
+		this.baseCooldown = baseCooldown;
 	}
 }

@@ -6,9 +6,10 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.rileyatodd.MageGame.R;
-import com.rileyatodd.MageGame.Rift;
+import com.rileyatodd.MageGame.spells.SummonMinion;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
 
 //Acts as container for all GameObjects, handles updating the game state by looping through all
@@ -25,25 +26,29 @@ public class GameInstance {
 	private ArrayList<GameObject> toAdd = new ArrayList<GameObject>();
 	private ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
 	public CharacterCard targetFrame;
-	public int viewCoordX;
-	public int viewCoordY;
+	private Point viewLoc;
 	public int width;
 	public int height;
+	private Spell selectedSpell = null;
 	
 	@SuppressLint("NewApi")
-	public GameInstance(GameActivity gameActivity, int width, int height) {
-		this.gameActivity = gameActivity;
+	public GameInstance(GameActivity activity, int width, int height) {
+		this.gameActivity = activity;
 		this.width = width;
 		this.height = height;
-		this.player1 = new Player(1, null, width / 2, height / 2, this, "p1");
+		this.player1 = new Player(1, this, null, new Point(width / 2, height / 2), "p1");
 		this.gameObjects.add(player1);
 		Bitmap block = BitmapFactory.decodeResource(gameActivity.resources, R.drawable.dice);
-		Rift boss = new Rift(1, new BitmapDrawable(block), player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150, this, "block");
+		Bitmap spider = BitmapFactory.decodeResource(gameActivity.resources, R.drawable.spider);
+		Character boss = new Character(1, this, new BitmapDrawable(block), new Point(player1.shape.getCenter().x + 150, player1.shape.getCenter().y + 150), "block");
+		Character minion = new Character(1, this, new BitmapDrawable(spider), boss.shape.getCenter(), "boss minion");
+		boss.setAutoAttack(new SummonMinion(minion, this));
 		boss.targetable=true;
 		boss.setTarget(player1);
 		this.gameObjects.add(boss);
 		this.gameMap = new GameMap(this);
 		this.gameMap.gameInstance = this;
+		viewLoc = new Point(0,0);
 		
 	}
 	
@@ -82,21 +87,21 @@ public class GameInstance {
 	}
 	
 	//Draw methods
-	//GameObjects have their onDraw() method called
+	//GameObjects have their draw() method called
 	//The GameMap is drawn by the GameInstance itself
-	public void onDraw(Canvas canvas) {
-		drawMap(canvas, viewCoordX, viewCoordY);
-		drawObjects(canvas, viewCoordX, viewCoordY);
+	public void render(Canvas canvas) {
+		drawMap(canvas);
+		drawObjects(canvas);
 	}
 	
-	public void drawObjects(Canvas canvas, int viewCoordX, int viewCoordY) {
+	public void drawObjects(Canvas canvas) {
 		for (int i = 0; i < gameObjects.size(); i++) {
 			GameObject object = gameObjects.get(i);
-			object.draw(canvas, viewCoordX, viewCoordY);
+			object.draw(canvas, viewLoc);
 		}
 	}
 	
-	public void drawMap(Canvas canvas, int screenCoordX, int screenCoordY) {
+	public void drawMap(Canvas canvas) {
 		int x = player1.shape.getCenter().x / gameMap.tileSizeX;
 		int y = player1.shape.getCenter().y / gameMap.tileSizeY;
 		
@@ -116,8 +121,8 @@ public class GameInstance {
 		for (int i = x; i < x + 3; i++) {
 			for (int j = y; j < y + 3; j++) {
 				canvas.drawBitmap(gameMap.tiles[gameMap.tileMap[i][j]], 
-						i * gameMap.tileSizeX + x % gameMap.tileSizeX - viewCoordX,
-						j * gameMap.tileSizeY + y % gameMap.tileSizeY - viewCoordY, null);
+						i * gameMap.tileSizeX + x % gameMap.tileSizeX - viewLoc.x,
+						j * gameMap.tileSizeY + y % gameMap.tileSizeY - viewLoc.y, null);
 			}
 		}
 	}
@@ -125,7 +130,7 @@ public class GameInstance {
 	
 	
 	//Collision detection
-	//returns 0 for no collision, 1 for dx = 0, 2 for dy = 0, and 3 for both = 0
+	//returns a boolean array with array[0] being wether or not the collision involved x movement and array[1] for y movement
 	public ArrayList<boolean[]> detectCollisions(GameObject a, double dx, double dy) {
 		ArrayList<boolean[]> collisions = new ArrayList<boolean[]>();
 		for (GameObject b: gameObjects) {
@@ -155,11 +160,11 @@ public class GameInstance {
 					Rectangle bShape = null;
 					if (a.shape instanceof Circle) {
 						Circle aCircle = (Circle)a.shape;
-						aShape = new Rectangle(aCircle.getCenter().x, aCircle.getCenter().y, aCircle.radius, aCircle.radius*2);
+						aShape = new Rectangle(aCircle.getCenter(), aCircle.radius, aCircle.radius*2);
 						bShape = (Rectangle)b.shape;
 					} else if (b.shape instanceof Circle) {
 						Circle bCircle = (Circle)b.shape;
-						bShape = new Rectangle(bCircle.getCenter().x, bCircle.getCenter().y, bCircle.radius, bCircle.radius*2);
+						bShape = new Rectangle(bCircle.getCenter(), bCircle.radius, bCircle.radius*2);
 						aShape = (Rectangle)a.shape;
 					} else {
 						aShape = (Rectangle)a.shape;
@@ -189,15 +194,30 @@ public class GameInstance {
 					}
 				}
 				if (collision[0] || collision[1]) {
-					a.onCollision(b);
-					b.onCollision(a);
-					if (b.solid && a.solid) {
+					if (a.onCollision(b) && b.onCollision(a)) {
+						Log.d("GameInstance", "Collision between " + b.getClass().getCanonicalName() + " and " + a.getClass().getCanonicalName());
 						collisions.add(collision);
 					}
 				}
 			}
 		}
 		return collisions;
+	}
+
+	public Point getViewLoc() {
+		return viewLoc;
+	}
+
+	public void setViewLoc(Point viewLoc) {
+		this.viewLoc = viewLoc;
+	}
+
+	public Spell getSelectedSpell() {
+		return selectedSpell;
+	}
+
+	public void setSelectedSpell(Spell selectedSpell) {
+		this.selectedSpell = selectedSpell;
 	}
 	
 }

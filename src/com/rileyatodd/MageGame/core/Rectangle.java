@@ -7,19 +7,19 @@ public class Rectangle extends Shape {
 	private int width;
 	private int height;
 	
-	public Rectangle(int x, int y, int width, int height) {
-		super(x,y);
+	public Rectangle(Point center, int width, int height) {
+		super(center);
 		this.width = width;
 		this.height = height;
 	}
 	
-	public boolean contains(double x, double y) {
+	public boolean contains(Point point) {
 		int left = this.getCenter().x - width/2;
 		int top = this.getCenter().y - height/2;
-		if (x > left && 
-				x < left + width &&
-				y > top  &&
-				y < top + height) {
+		if (point.x > left && 
+				point.x < left + width &&
+				point.y > top  &&
+				point.y < top + height) {
 			return true;
 		} else {
 			return false;

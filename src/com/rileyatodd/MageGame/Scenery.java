@@ -3,11 +3,11 @@ package com.rileyatodd.MageGame;
 import com.rileyatodd.MageGame.core.Drawable;
 import com.rileyatodd.MageGame.core.GameInstance;
 import com.rileyatodd.MageGame.core.GameObject;
+import com.rileyatodd.MageGame.core.Point;
 
 public class Scenery extends GameObject {
-	public Scenery(Drawable drawable, int x, int y, GameInstance gameInstance, String name) {
-		super(drawable, x, y, gameInstance, name);
+	public Scenery(GameInstance gameInstance, Drawable drawable, Point loc, String name) {
+		super(gameInstance, drawable, loc, name);
 		targetable = true;
 	}
-
 }

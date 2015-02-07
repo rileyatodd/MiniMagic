@@ -1,0 +1,274 @@
+Magic Game
+
+  Red mage
+    Storm lord
+      Auto attack - lightning strikes (fast accurate midrange)
+      Passive - windswept - storms bonuses
+      Pure ultimate - tempest. Super storm
+      Other abilities
+        Flash - blink (no cooldown when targeted into a storm with windswept)
+        Shock - short stun (automatically happens periodically in storms if you have windswept)
+        Storm front - moderate pbaoe (larger radius with windswept)
+        Super cell - slow moving storm aoe covers large area does decent damage
+        cloud curse - summons a single small storm that follows your target
+
+    Pyre cultist
+      Auto attack - flamethrower (powerful, inaccurate, midrange)
+      Passive - pyromania (more damage at lower health)
+      Pillar of flame
+      Oter abilities
+        Cauterize - heals self for % of missing health
+        Ash cloud - obscures vision and causes minor damage
+        Ring of fire - more powerful attacks while in it but you take damage
+        Ember - weak long lasting fire dot (extra pyromania bonus)
+        Eruption - take heavy damage,deal local aoe and increase damage temporarily
+
+    Glacier king
+      Auto attack - stacks debuff frozen in place temporarily at 5 stacks
+      Passive - damage reduction while standing still, damage bonus against stationary targets
+      Ultimate - Ice age - actual glacier rolls in and makes things slippery
+      Other skills
+        determination - temporary immunity to aoe effects
+        heatsink - enemies are chilled based on proximity to user with enemies making contact being completely frozen
+        hailstorm - brief powerful aoe with a windup
+        coated in ice - slows you, increases your defense, and causes your auto attack deal massive melee damage
+        frozen fortress - create a [ ] of ice to corner people
+
+  White Mage
+    Priest - holy exorcisms and smites and prayers
+      Auto attack - judgment smartheals nearby allies for 50% of damage done only heals self for %25
+      Passive - purity - higher your healing to damage ratio,the more damage you do
+      Pure ultimate - power of prayer - allies that stand still get full healed and invulnerability
+      Other skills
+        Prayer for good health - aoe hot
+        Exorcism - forces immobility but deals heavy channeled damage
+        Divine grace - temporarily improves speed and self heals instantly
+        prayer for protection -  pally bubble targeted player. Absorbed damage counts as healing and is partially reflected
+        light of God - moonbeam effect as a targeted heal. Hits everyone in the moonbeam low cooldown
+
+    Sage
+      Auto attack - bursts of arcane magic
+      Passive  - does better in short bursts rather than constant action, weakened state if over exerted but huge potential throughput
+      Pure ultimate - youth - fatigue mechanic neutralized master roshi style. All around stat boost
+      Other skills
+        Ancient glow - pbaoe channeled heal (reduces fatigue from passive)
+        Meditation - channeled CD and damage reduction
+        forgotten power - channeled giga beam
+        Telepathy - causes targets next attack to backfire
+        Elder Knowledge - full screen aoe white flash heals ally's damages enemies large fatigue cost long CD
+
+
+    Chaos magus - can dissolve / unravel things, entropy ability, interesting conditions
+      Auto attack -  entropy - hits all enemies on screen for very weak damage but picks one randomly to do more damage to if there is more than one
+      Passive - power fluctuates based on magnitude of recent (<1.5 seconds ago) on  screen damage and healing
+      pure ultimate - confusion and friendly fire
+      Other skills
+         chaos blast - cone aoe that applies a random debuffs to enemy attributes
+         Dissolve - Dot that ignores defense (heizenburg achievement?)
+
+
+  Black mage
+    Order magus - Kinda like a magic engineer, can construct things, can heal others but not self, tanky to compensate
+      Auto attack - Systematic Strike - Does more damage for each succesive attack on the same character
+      Passive - anchored - immune to cc, high resistance, cannot heal self
+      Pure ultimate - scales of justice - health equalizer
+      Other abilities:
+        Reordering Aura - aoe hot. Aura is a toggle but requires you to be stationary
+        Magic Stabilizer - Drops a stabilizer that prevents all effects except for healing and damage in its radius
+        Chain Link - User draws a circle and anyone trapped in it is damaged and chained in place
+        According to Plan - Deals damage to the target and grants a different buff based on their current health
+        Symmetry - Causes damage where targeted and causes healing on the opposite side of the caster (good for tanking)
+
+
+    Shadow mage
+      Auto attack - shadow bolt
+      Passive - extra damage while unseen
+      pure ultimate - shadow clone - actual copy for double ambush
+      Other skills
+        Fade - reduce damage and remove cc
+        deception - creates a decoy and enters stealth for a short time. Damage to decoy adds duration to stealth
+        sneak - weak stealth (breaks on action) with moderate duration but grants speed boost
+        ambush - causes user to move very slowly but contact with an enemy engulfs them in shadow for massive damage
+        the darkness - causes darkness to tunnel targets vision 
+
+
+    Void mage 
+      Auto attack - void strike (weak but slows by causing a very short immobilize effect)
+      Passive - void attunement (reduced damage while in aoe zone, reduced negative/enhanced positives from aoe zones)
+      pure ultimate - into the void - screen wide immobilizing void
+      Other abilities
+        Impassible void - only void mages can go through
+        Vacuum - pulls enemies towards the target area, chokes them, and damages them
+        Wormhole - make a temporary portal between current and target areas. Stepping on it automatically uses it and it heavily damages non void mages
+        gravity well - stepping on it causes knockdown and damage
+        Collapse space - aoe damage void at target area that does exponentially more damage as it shrinks
+
+
+  Other (Blue for alchemist and zodiac, maybe green for others)
+    Brown Mage
+      Geomancer - Earth power fa dayz
+        Auto attack - Rock slide - chance to knockdown
+        Passive - 
+        Pure Ultimate -
+        Other Abilities
+          Seismic Tilt - "Tilt" the ground so that characters start sliding in the indicated direction
+          Petrify - Turns the target to stone 
+
+      Druid - Nature Power (Rhaddaghast?)
+        Auto attack - 
+        Passive - 
+        Pure Ultimate - 
+        Other Abilities
+          Creeping Vines - slowly moves towards target, damaging and temporarily immobilizing anything it touches
+
+
+      Necro mage - brown decaying flesh look (not all black, red, and skulls)
+
+    Blue Mage  
+      Alchemist
+        Auto Attack - poison darts
+        Pure ultimate - mobile lab - have to stand still but chucks potions like mad
+        Reference to men of rossak
+
+      Zodiac mage - Summons constellations that do crazy things
+        Auto attack - Starfall
+        Passive - bonuses when inside a constellation
+        Pure Ultimate - 
+        Other Abilities
+
+  Combo Ultimates
+    Has to be different base color
+    One is dominant based on which you have more skills from
+      This determines  passive ability and auto attack
+    Each combo gets a special combo move as their ultimate
+    Storm lord
+      Priest - Kamikaze divine winds
+      Sage - Ancient winds
+      Chaos magus - butterfly effect - creates small storm that grows in the presence of battle
+      Order magus - lightning in a bottle
+      shadow mage - cloudy night
+      Void mage - eye of the storm
+    Pyre cultist
+      Priest - brimstone / holy fire
+      Sage - arcane fire
+      Chaos magus - chain reaction (all spells chain to nearby visible enemies for a short time)
+      Order magus - pillar of fire
+      Shadow mage - baelrog
+      Void mage - pit of hell
+    Glacier king
+      Priest -  holy water / baptism
+      Sage - absolute zero
+      Chaos mage - shatter
+      Order mage - ice crystal
+      Shadow mage - black ice long lasting aoe immobilize that can't be seen
+      Void mage - permafrost
+    Priest
+      Order magus - Temple of order
+      Shadow mage - false prophecy
+      void mage - heaven on earth
+    Sage
+      Order mage - focused thought
+      Shadow mage -  pure darkness - blackout enemy screen
+      Void mage -secrets of the void
+    Chaos magus
+      Order mage - contradiction
+      Shadow mage - shifting shadows
+      Void mage - catalyst zone - accelerates all conditions and buffs immensely
+  Color Ultimates - Ultimates for those that don't have 3 in one class to get a pure or combo ultimate get one based on their most comon color
+    Red - Elemental Fury - Rotating Venn Diagram of fire, ice, and lightning aoe's
+    White - Blinding Light - Screen covering aoe, that blinds enemies and heals allies
+    Black - The Abyss - an abyss opens that slows people and after a short time closes dealing massive damage to anyone still in it
+    
+    Chromatic - Doesn't have 3 skills from a single class so misses out on class passives and autoattacks. Gets a color ultimate
+      Auto attack - Rainbow blast
+      Passive - Reflective - 10% of the effect of any debuff on this player is reflected back at the caster
+      Other Abilities
+        Double Rainbow - 
+
+
+
+MoBa-ish/ESO-ish combat
+open world / real time
+voice commands to one VoIP chat with up to 4 others (party or nearby)
+
+Create a community, help people find friends
+online forum
+officially supported wiki
+guild finder on website?
+friends of friends list / group finder
+encourage friending
+auto level friendship when playing together (augmented by rating)
+encourage rating
+
+death penalty is loss of unused experience
+
+user created skins
+     give directions in game for creating skins
+          hand draw or computer made
+          give guidelines for pixel density / size /
+          give requirements for animation
+               need correct amount of frames
+               no more than 3 can be the same (must actually be moving)
+          send them to a specific email
+     someone has to manually filter submissions
+          no logos, trademarked or copyrighted IP, or filth
+     selected skins are added to the game via weekly updates     
+
+use experience as universal upgrade currency
+  Can be applied to
+      Attributes
+        Attack speed
+        move speed
+        health
+        Power
+        Resistance
+        CD reduction
+        Sliders determine allocation between stats. Always a tradeoff, no caps
+        PvP normalizes stats based on sliders
+
+      Spells
+        Start with enough exp to buy 5
+           Additional experience enhances spells passively
+              Sliders determine allocation between current spells just like attributes
+              PvP normalizes spell bonuses based on sliders
+        Passives are acquired after three skills in one tree
+      Respecs
+        Have a bank of available skills you can switch freely while out of combat for a nominal exp fee
+          Increasing size of skill bank gets increasingly very expensive
+          Max skill bank capped at 1/2 total skills in game
+        Have to drop a skill if skill bank is full
+
+Only one gear slot
+   Focus (weapon)
+      Color specific bonuses or slightly stronger class specific bonuses
+      Other interesting bonuses
+         More like trinkets than stat sticks
+
+
+To Do:
+    Fix Auto-attack - implement as class specific spells
+      generalize to a method for characters
+    Clean up Activity.onCreate()
+    Create a way to store and load player profiles
+      Player profile class 
+        Basically just a save state of character spells, exp, items,
+      Character.loadProfile()
+        invoke in character.<init>()
+          Make character.<init> require a profile to be passed to it?
+    User Interface
+      Pause Menu
+        Character Pane
+          main tab
+            Concept Art
+            Current Stats
+          exp tab
+            Stat Slider
+            Spell Weight Slider
+            Spell Bank
+              Bank above the bar
+              drag and drop
+      Spell Error (e.g. out of range) feedback
+      Display health bars as arcs around characters
+    Graphical
+      Use Drawable Animation for the animations
+        Define image sequence in xml
