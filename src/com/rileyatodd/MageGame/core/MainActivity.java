@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rileyatodd.MageGame.R;
-import com.rileyatodd.MageGame.Settings;
-import com.rileyatodd.MageGame.SignIn;
+import com.rileyatodd.MageGame.objects.Settings;
+import com.rileyatodd.MageGame.objects.SignIn;
 
 
 public class MainActivity extends Activity {

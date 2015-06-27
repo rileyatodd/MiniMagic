@@ -1,4 +1,5 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.geometry;
+
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

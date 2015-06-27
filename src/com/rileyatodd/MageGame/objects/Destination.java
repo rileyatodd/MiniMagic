@@ -1,10 +1,9 @@
-package com.rileyatodd.MageGame;
+package com.rileyatodd.MageGame.objects;
 
-import com.rileyatodd.MageGame.core.Circle;
 import com.rileyatodd.MageGame.core.Drawable;
 import com.rileyatodd.MageGame.core.GameInstance;
-import com.rileyatodd.MageGame.core.GameObject;
-import com.rileyatodd.MageGame.core.Point;
+import com.rileyatodd.MageGame.geometry.Circle;
+import com.rileyatodd.MageGame.geometry.Point;
 
 public class Destination extends GameObject {
 	public GameObject destinationOf;

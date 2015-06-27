@@ -28,11 +28,11 @@
             android:label="@string/title_activity_new_game_screen" >
         </activity>
         <activity
-            android:name="com.rileyatodd.MageGame.SignIn"
+            android:name="com.rileyatodd.MageGame.objects.SignIn"
             android:label="@string/title_activity_sign_in" >
         </activity>
         <activity
-            android:name="com.rileyatodd.MageGame.Settings"
+            android:name="com.rileyatodd.MageGame.objects.Settings"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity

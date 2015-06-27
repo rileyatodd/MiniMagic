@@ -1,4 +1,4 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.objects;
 
 import java.util.ArrayList;
 
@@ -7,8 +7,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.rileyatodd.MageGame.Destination;
 import com.rileyatodd.MageGame.R;
+import com.rileyatodd.MageGame.core.BitmapDrawable;
+import com.rileyatodd.MageGame.core.Drawable;
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.core.Observer;
+import com.rileyatodd.MageGame.core.Subject;
+import com.rileyatodd.MageGame.geometry.Circle;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.geometry.Rectangle;
+import com.rileyatodd.MageGame.geometry.Shape;
 
 public class GameObject implements Observer, Subject {
 	

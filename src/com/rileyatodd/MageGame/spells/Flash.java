@@ -8,11 +8,10 @@ import android.util.Log;
 import com.rileyatodd.MageGame.R;
 import com.rileyatodd.MageGame.core.Animation;
 import com.rileyatodd.MageGame.core.BitmapDrawable;
-import com.rileyatodd.MageGame.core.Character;
 import com.rileyatodd.MageGame.core.GameInstance;
-import com.rileyatodd.MageGame.core.Point;
-import com.rileyatodd.MageGame.core.Spell;
 import com.rileyatodd.MageGame.core.VisualEffect;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.objects.Character;
 import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 
 public class Flash extends Spell implements ButtonCallback {

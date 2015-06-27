@@ -1,4 +1,6 @@
-package com.rileyatodd.MageGame;
+package com.rileyatodd.MageGame.objects;
+
+import com.rileyatodd.MageGame.R;
 
 import android.os.Bundle;
 import android.app.Activity;

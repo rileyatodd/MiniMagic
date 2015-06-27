@@ -1,12 +1,18 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.objects;
 
 import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.rileyatodd.MageGame.core.Drawable;
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.core.PlayerEffect;
+import com.rileyatodd.MageGame.core.Subject;
+import com.rileyatodd.MageGame.geometry.Point;
 import com.rileyatodd.MageGame.spells.DivineGrace;
 import com.rileyatodd.MageGame.spells.Fireball;
 import com.rileyatodd.MageGame.spells.Flash;
+import com.rileyatodd.MageGame.spells.Spell;
 
 public class Character extends GameObject {
 	private int lvl;

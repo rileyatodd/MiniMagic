@@ -1,5 +1,7 @@
 package com.rileyatodd.MageGame.core;
 
+import com.rileyatodd.MageGame.objects.Character;
+
 
 public class PlayerEffect {
 	public double duration;

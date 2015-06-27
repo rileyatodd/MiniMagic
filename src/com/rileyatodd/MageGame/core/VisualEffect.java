@@ -1,5 +1,8 @@
 package com.rileyatodd.MageGame.core;
 
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.objects.GameObject;
+
 public class VisualEffect extends GameObject {
 
 	public VisualEffect(GameInstance gameInstance, Drawable drawable, Point loc, String name) {

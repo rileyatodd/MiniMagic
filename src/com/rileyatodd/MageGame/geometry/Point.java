@@ -1,4 +1,4 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.geometry;
 
 public class Point {
 	public int x;

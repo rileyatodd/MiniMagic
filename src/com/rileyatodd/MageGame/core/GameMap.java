@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.rileyatodd.MageGame.R;
+import com.rileyatodd.MageGame.objects.GameObject;
 
 public class GameMap {
 	//Background tiles

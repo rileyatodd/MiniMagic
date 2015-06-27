@@ -13,6 +13,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.rileyatodd.MageGame.R;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.objects.GameObject;
+import com.rileyatodd.MageGame.spells.Spell;
 import com.rileyatodd.MageGame.userInterface.Button;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
 import com.rileyatodd.MageGame.userInterface.InGameMenu;

@@ -1,6 +1,8 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.objects;
 
-import com.rileyatodd.MageGame.Scenery;
+import com.rileyatodd.MageGame.core.Drawable;
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.geometry.Point;
 
 
 public class Player extends Character{

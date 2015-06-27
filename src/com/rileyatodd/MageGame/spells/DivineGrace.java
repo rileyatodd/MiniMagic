@@ -2,11 +2,10 @@ package com.rileyatodd.MageGame.spells;
 
 import android.graphics.Color;
 
-import com.rileyatodd.MageGame.core.Character;
 import com.rileyatodd.MageGame.core.GameInstance;
 import com.rileyatodd.MageGame.core.PlayerEffect;
-import com.rileyatodd.MageGame.core.Point;
-import com.rileyatodd.MageGame.core.Spell;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.objects.Character;
 
 public class DivineGrace extends Spell {
 

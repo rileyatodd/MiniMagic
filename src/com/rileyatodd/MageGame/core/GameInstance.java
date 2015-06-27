@@ -9,6 +9,13 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import com.rileyatodd.MageGame.R;
+import com.rileyatodd.MageGame.geometry.Circle;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.geometry.Rectangle;
+import com.rileyatodd.MageGame.objects.Character;
+import com.rileyatodd.MageGame.objects.GameObject;
+import com.rileyatodd.MageGame.objects.Player;
+import com.rileyatodd.MageGame.spells.Spell;
 import com.rileyatodd.MageGame.spells.SummonMinion;
 import com.rileyatodd.MageGame.userInterface.CharacterCard;
 

@@ -1,8 +1,11 @@
-package com.rileyatodd.MageGame.core;
+package com.rileyatodd.MageGame.spells;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.rileyatodd.MageGame.core.GameInstance;
+import com.rileyatodd.MageGame.geometry.Point;
+import com.rileyatodd.MageGame.objects.Character;
 import com.rileyatodd.MageGame.userInterface.Button;
 import com.rileyatodd.MageGame.userInterface.ButtonCallback;
 

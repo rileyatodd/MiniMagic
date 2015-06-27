@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.rileyatodd.MageGame.core.Character;
 import com.rileyatodd.MageGame.core.Subject;
+import com.rileyatodd.MageGame.objects.Character;
 
 public class CharacterCard extends UIFrame {
 	//private static final String TAG = CharacterCard.class.getSimpleName();
